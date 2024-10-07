@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff69b4;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Love Calculator</h1>
+        <p>Enter your name and your crush's name:</p>
+        <input type="text" id="yourName" placeholder="Your Name" required>
+        <input type="text" id="crushName" placeholder="Crush's Name" required>
+        <button onclick="submitForm()">Calculate Love</button>
+        <div class="result" id="loveResult"></div>
+    </div>
+
+    <script>
+        function submitForm() {
+            const yourName = document.getElementById('yourName').value;
+            const crushName = document.getElementById('crushName').value;
+
+            if (yourName === '' || crushName === '') {
+                alert('Please enter both names!');
+                return;
+            }
+
+            // Your Google Apps Script URL here
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyq002XdyJ8l8kBFOzN2N21k88v0TPuI8P0IM33qCAWgC2W45xFtrTFH1cGIVUx2si4gw/exec';  // Replace with your deployed Google Apps Script URL
+
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `name=${encodeURIComponent(yourName)}&crush=${encodeURIComponent(crushName)}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('loveResult').textContent = result;
+            })
+            .catch(error => console.error('Error!', error.message));
+        }
+    </script>
+</body>
+</html>
